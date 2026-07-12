@@ -1,16 +1,42 @@
-# This is a sample Python script.
-
-# Press Umschalt+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import products
+from store import Store
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Strg+F8 to toggle the breakpoint.
+def main():
+    product_list = [
+        products.Product(
+            "MacBook Air M2",
+            price=1450,
+            quantity=100,
+            active=True
+        ),
+        products.Product(
+            "Bose QuietComfort Earbuds",
+            price=250,
+            quantity=500,
+            active=True
+        ),
+        products.Product(
+            "Google Pixel 7",
+            price=500,
+            quantity=250,
+            active=True
+        ),
+    ]
+
+    best_buy = Store(product_list)
+
+    active_products = best_buy.get_all_products()
+
+    print(best_buy.get_total_quantity())
+
+    total_price = best_buy.order([
+        (active_products[0], 1),
+        (active_products[1], 2)
+    ])
+
+    print(total_price)
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+if __name__ == "__main__":
+    main()
