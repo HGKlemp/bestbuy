@@ -1,60 +1,73 @@
 class Product:
-
+    """Represents a product in the store."""
 
     def __init__(self, name, price, quantity, active=True):
-
+        """Creates a new product."""
         if not isinstance(name, str) or not name:
             raise ValueError("Name must be a non-empty string.")
 
         if not isinstance(price, (int, float)) or price < 0:
-            raise ValueError("Price must be a non-negative float.")
+            raise ValueError("Price must be a non-negative number.")
 
-        if not isinstance(quantity, int) or quantity < 0:
+        if type(quantity) is not int or quantity < 0:
             raise ValueError("Quantity must be a non-negative integer.")
 
         if not isinstance(active, bool):
             raise ValueError("Active must be a boolean.")
 
-        self.active = active
-        self.quantity = quantity
         self.name = name
         self.price = price
+        self.quantity = quantity
+        self.active = active
 
     def get_quantity(self):
+        """Returns the available quantity."""
         return self.quantity
 
     def set_quantity(self, quantity):
+        """Updates the available quantity."""
+        if type(quantity) is not int or quantity < 0:
+            raise ValueError("Quantity must be a non-negative integer.")
+
         self.quantity = quantity
 
+        if self.quantity == 0:
+            self.deactivate()
+
     def is_active(self):
+        """Returns whether the product is active."""
         return self.active
 
-    def active(self):
+    def activate(self):
+        """Activates the product."""
         self.active = True
 
-    def deactive(self):
+    def deactivate(self):
+        """Deactivates the product."""
         self.active = False
 
     def show(self):
-        print(f"{self.name}, Price: {self.price}, Quantity: {self.quantity}")
+        """Displays the product information."""
+        print(
+            f"{self.name}, Price: {self.price}, "
+            f"Quantity: {self.quantity}"
+        )
 
     def buy(self, quantity):
-        if self.quantity - quantity < 0:
-            raise ValueError("Purchase quantity is greater than the available quantity.")
+        """Buys a quantity and returns its price."""
+        if type(quantity) is not int or quantity <= 0:
+            raise ValueError("Purchase quantity must be a positive integer.")
+
+        if quantity > self.quantity:
+            raise ValueError(
+                "Purchase quantity is greater than the available quantity."
+            )
 
         self.quantity -= quantity
 
+        if self.quantity == 0:
+            self.deactivate()
+
         return quantity * self.price
 
-bose = Product("Bose QuietComfort Earbuds", price=250, quantity=500)
-mac = Product("MacBook Air M2", price=1450, quantity=100)
 
-print(bose.buy(50))
-print(mac.buy(100))
-print(mac.is_active())
-
-bose.show()
-mac.show()
-
-bose.set_quantity(1000)
-bose.show()
