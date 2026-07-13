@@ -9,7 +9,7 @@ class Product:
         if not isinstance(price, (int, float)) or price < 0:
             raise ValueError("Price must be a non-negative number.")
 
-        if type(quantity) is not int or quantity < 0:
+        if not isinstance(quantity, int) or quantity < 0:
             raise ValueError("Quantity must be a non-negative integer.")
 
         if not isinstance(active, bool):
@@ -26,7 +26,7 @@ class Product:
 
     def set_quantity(self, quantity):
         """Updates the available quantity."""
-        if type(quantity) is not int or quantity < 0:
+        if not isinstance(quantity, int) or quantity < 0:
             raise ValueError("Quantity must be a non-negative integer.")
 
         self.quantity = quantity
@@ -55,7 +55,7 @@ class Product:
 
     def buy(self, quantity):
         """Buys a quantity and returns its price."""
-        if type(quantity) is not int or quantity <= 0:
+        if not isinstance(quantity, int) or quantity < 0:
             raise ValueError("Purchase quantity must be a positive integer.")
 
         if quantity > self.quantity:
@@ -69,5 +69,3 @@ class Product:
             self.deactivate()
 
         return quantity * self.price
-
-
