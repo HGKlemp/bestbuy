@@ -55,7 +55,10 @@ class Product:
 
     def buy(self, quantity):
         """Buys a quantity and returns its price."""
-        if not isinstance(quantity, int) or quantity < 0:
+        if not self.is_active():
+            raise ValueError("Product is inactive and cannot be purchased.")
+        
+        if not isinstance(quantity, int) or quantity <= 0:
             raise ValueError("Purchase quantity must be a positive integer.")
 
         if quantity > self.quantity:
